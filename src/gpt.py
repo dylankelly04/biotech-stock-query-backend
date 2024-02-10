@@ -7,7 +7,7 @@ import os
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def generate(symbol: str, query: str) -> list[str]:
+def generate(symbol: str, query: str):
   data = fetch_raw_data(symbol)
   descriptions = get_data(data, "<description>")
   titles = get_data(data, "<title>")[:-1]

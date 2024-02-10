@@ -30,7 +30,7 @@ def health_check() -> dict[str, list[str]]:
 
 
 @app.get("/api/{symbol}")
-def generate_response(symbol: str, query: str) -> dict[str, list[str]]:
+def generate_response(symbol: str, query: str):
     return {"messages": generate(symbol, query)}
 
 
