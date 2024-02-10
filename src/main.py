@@ -9,7 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from yahoo_finance import fetch_raw_data, get_data, preprocess_data
 app = FastAPI()
 allowed_origins = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://biotech-stock-query.vercel.app"
 ]
 
 app.add_middleware(
