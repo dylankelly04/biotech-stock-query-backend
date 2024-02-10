@@ -30,5 +30,3 @@ def prompt_model(input_data, prompt):
     ]
   )
   return response.choices[0].message.content
-
-print(generate("ORGO", "Why did ORGO increase 30% in the past month?"))
