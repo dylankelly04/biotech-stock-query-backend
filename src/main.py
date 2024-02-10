@@ -1,12 +1,12 @@
 from typing import Union
 from fastapi import FastAPI, Response
-
-from gpt import generate
-from similar_stocks import get_recommended_symbols
-from stock import get_graph_data
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
-from yahoo_finance import fetch_raw_data, get_data, preprocess_data
+from src.gpt import generate
+from src.similar_stocks import get_recommended_symbols
+from src.stock import get_graph_data
+
 app = FastAPI()
 allowed_origins = [
     "http://localhost:3000",
@@ -29,9 +29,9 @@ def health_check() -> dict[str, list[str]]:
     return {"messages": ["Server healthy."]}
 
 
-@app.get("/api/{symbol}")
-def generate_response(symbol: str, query: str) -> dict[str, list[str]]:
-    return {"messages": generate(symbol, query)}
+# @app.get("/api/{symbol}")
+# def generate_response(symbol: str, query: str) -> dict[str, list[str]]:
+#     return {"messages": generate(symbol, query)}
 
 
 @app.get("/api/similar/{symbol}")
@@ -47,3 +47,6 @@ def get_similar(symbol: str, res: Response) -> Union[dict[str, list[str]], str]:
 @app.get("/data")
 def graph_data(ticker: str, time: str):
     return get_graph_data(ticker, time)
+
+if __name__ == "__main__":
+  uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
