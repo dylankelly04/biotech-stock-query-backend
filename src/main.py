@@ -1,9 +1,12 @@
-from fastapi import FastAPI
+from typing import Union
+from fastapi import FastAPI, Response
 
 from gpt import generate
+from similar_stocks import get_recommended_symbols
 from stock import get_data
 from fastapi.middleware.cors import CORSMiddleware
 
+from yahoo_finance import fetch_raw_data, get_data, preprocess_data
 app = FastAPI()
 allowed_origins = [
     "http://localhost:3000"
@@ -28,6 +31,16 @@ def health_check() -> dict[str, list[str]]:
 @app.get("/api/{symbol}")
 def generate_response(symbol: str, query: str) -> dict[str, list[str]]:
     return {"messages": generate(symbol, query)}
+
+
+@app.get("/api/similar/{symbol}")
+def get_similar(symbol: str, res: Response) -> Union[dict[str, list[str]], str]:
+    try:
+        similars = get_recommended_symbols(symbol)
+        return {"similar": similars}
+    except:
+        res.status_code = 500
+        return "Failed to fetch similar stocks (500)"
 
 
 @app.get("/data")
