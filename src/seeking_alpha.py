@@ -1,6 +1,8 @@
 import bs4 as bs
 import requests
 
+from clustering import cluster_sentences
+
 def get_endpoint(symbol: str) -> str:
   return f"https://seekingalpha.com/api/sa/combined/{symbol}.xml"
 
@@ -20,6 +22,8 @@ def parse_rss(rss: str) -> list[str]:
   return [titles[i] + " " + dates[i] for i in range(len(titles))]
 
 def get_titles(symbol: str) -> list[str]:
-  print(f"Fetching titles and dates for {symbol}")
   rss = fetch_rss(symbol)
-  return parse_rss(rss)
+  titles = parse_rss(rss)
+  indices = cluster_sentences(titles, len(titles) // 2)
+  filtered_titles = [titles[i] for i in indices]
+  return filtered_titles

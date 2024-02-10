@@ -1,5 +1,7 @@
 import requests
 
+from clustering import cluster_sentences
+
 def fetch_raw_data(symbol):
     url = "https://feeds.finance.yahoo.com/rss/2.0/headline?s=" + \
         symbol + "&region=US&lang=en-US"
@@ -19,7 +21,7 @@ def parse_data(raw_file_str, info_type):
         start_idx = end_indices[-1] + 1
 
     data_lst = []
-    for i in range(len(start_indices)): 
+    for i in range(len(start_indices)):
         data_lst.append(raw_file_str[start_indices[i]:end_indices[i]])
     return data_lst
 
@@ -33,7 +35,8 @@ def get_data(symbol):
     return [titles[i] + " " + dates[i] + ": " + descriptions[i] for i in range(len(titles))]
 
 def preprocess_data(descriptions, titles):
-    """ 
-
-    """
-    return descriptions, titles
+    indices = cluster_sentences(titles, len(titles) // 2)
+    filtered_titles = [titles[i] for i in indices]
+    filtered_description = [descriptions[i] for i in indices]
+    assert len(filtered_titles) == len(filtered_description)
+    return filtered_description, filtered_titles
