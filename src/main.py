@@ -28,9 +28,9 @@ def health_check() -> dict[str, list[str]]:
     return {"messages": ["Server healthy."]}
 
 
-@app.get("/api/{symbol}")
-def generate_response(symbol: str, query: str) -> dict[str, list[str]]:
-    return {"messages": generate(symbol, query)}
+# @app.get("/api/{symbol}")
+# def generate_response(symbol: str, query: str) -> dict[str, list[str]]:
+#     return {"messages": generate(symbol, query)}
 
 
 @app.get("/api/similar/{symbol}")
