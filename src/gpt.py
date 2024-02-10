@@ -1,5 +1,11 @@
+from yahoo_finance import *
+from seeking_alpha import *
 from openai import OpenAI
-client = OpenAI(api_key="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")
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate(symbol: str, query: str) -> list[str]:
   data = fetch_raw_data(symbol)
@@ -10,7 +16,7 @@ def generate(symbol: str, query: str) -> list[str]:
   input_data += ".\n".join(get_titles(symbol))
   prompt = """
   You are to assume the role of a financial analyst. 
-  Using the given news article titles and descriptions, answer the following question. "
+  Using the given news article titles and descriptions, answer the following question in a brief list. "
   """ + query
   output = prompt_model(input_data, prompt)
   return output
@@ -24,3 +30,5 @@ def prompt_model(input_data, prompt):
     ]
   )
   return response.choices[0].message.content
+
+print(generate("ORGO", "Why did ORGO increase 30% in the past month?"))
