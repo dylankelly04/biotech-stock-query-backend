@@ -3,9 +3,9 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from src.gpt import generate
-from src.similar_stocks import get_recommended_symbols
-from src.stock import get_graph_data
+from gpt import generate
+from similar_stocks import get_recommended_symbols
+from stock import get_graph_data
 
 app = FastAPI()
 allowed_origins = [

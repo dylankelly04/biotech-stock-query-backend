@@ -1,5 +1,5 @@
-from src.yahoo_finance import *
-from src.seeking_alpha import *
+from yahoo_finance import *
+from seeking_alpha import *
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
