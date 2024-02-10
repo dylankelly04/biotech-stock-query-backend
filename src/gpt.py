@@ -1,2 +1,2 @@
-def generate(symbol: str) -> list[str]:
+def generate(symbol: str, query: str) -> list[str]:
   return []
