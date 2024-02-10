@@ -3,7 +3,7 @@ from fastapi import FastAPI, Response
 
 from gpt import generate
 from similar_stocks import get_recommended_symbols
-from stock import get_data
+from stock import get_graph_data
 from fastapi.middleware.cors import CORSMiddleware
 
 from yahoo_finance import fetch_raw_data, get_data, preprocess_data
@@ -45,4 +45,4 @@ def get_similar(symbol: str, res: Response) -> Union[dict[str, list[str]], str]:
 
 @app.get("/data")
 def graph_data(ticker: str, time: str):
-    return get_data(ticker, time)
+    return get_graph_data(ticker, time)
