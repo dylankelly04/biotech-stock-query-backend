@@ -14,7 +14,12 @@ def generate(symbol: str, query: str):
   Using the given news article titles and descriptions, answer the following question in a brief list. "
   """ + query
   output = prompt_model(input_data, prompt)
-  return output
+
+  if (output == None):
+    return []
+
+  messages = output.split("\n")
+  return messages
 
 def prompt_model(input_data, prompt):
   response = client.chat.completions.create(
