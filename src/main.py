@@ -5,7 +5,9 @@ import uvicorn
 
 from gpt import generate
 from similar_stocks import get_recommended_symbols
+from model_vetter import generate_rating
 from stock import get_graph_data
+import tensorflow as tf
 
 app = FastAPI()
 allowed_origins = [
@@ -13,6 +15,7 @@ allowed_origins = [
     "https://equitysquared.vercel.app"
 ]
 
+model = tf.keras.saving.load_model("stock_vetter_rnn.keras")
 app.add_middleware(
     CORSMiddleware,
     # Allow specific origins (or ["*"] for all origins)
@@ -48,5 +51,11 @@ def get_similar(symbol: str, res: Response) -> Union[dict[str, list[str]], str]:
 def graph_data(ticker: str, time: str):
     return get_graph_data(ticker, time)
 
+
+@app.get("/model")
+def get_rating(ticker: str):
+    return generate_rating(ticker, model=model)
+
+
 if __name__ == "__main__":
-  uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
