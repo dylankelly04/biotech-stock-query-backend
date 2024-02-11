@@ -15,7 +15,7 @@ allowed_origins = [
     "https://equitysquared.vercel.app"
 ]
 
-model = tf.keras.saving.load_model("stock_vetter_rnn.keras")
+model = tf.keras.models.load_model("stock_vetter_rnn.keras")
 app.add_middleware(
     CORSMiddleware,
     # Allow specific origins (or ["*"] for all origins)
