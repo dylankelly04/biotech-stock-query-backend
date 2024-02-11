@@ -10,7 +10,7 @@ from stock import get_graph_data
 app = FastAPI()
 allowed_origins = [
     "http://localhost:3000",
-    "https://biotech-stock-query.vercel.app"
+    "https://equitysquared.vercel.app"
 ]
 
 app.add_middleware(
